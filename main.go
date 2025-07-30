@@ -24,10 +24,36 @@ func cleanInput(text string) []string {
 
 func main() {
 	sc := bufio.NewScanner(os.Stdin)
+	cliMap := map[string]cliCommand{
+		"exit": {
+			name:			"exit",
+			description:	"Exit the Pokedex",
+			callback:		commandExit,
+		},
+	}
+	cliMap["help"] = cliCommand{
+		name:			"help",
+		description:	"Displays a help message",
+		callback:		help(cliMap),
+	}
+
 	for {
 		fmt.Print("Pokedex > ")
 		sc.Scan()
+		valid := false
 		clean := cleanInput(sc.Text())
-		fmt.Printf("Your command was: %s\n", clean[0])
+		for command := range cliMap {
+			if clean[0] == command {
+				err := cliMap[command].callback()
+				if err != nil {
+					fmt.Errorf("%v", err)
+				}
+				valid = true
+				break
+			}
+		}
+		if !valid {
+			fmt.Printf("Unknown command\n")
+		}
 	}
 }
