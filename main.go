@@ -24,17 +24,37 @@ func cleanInput(text string) []string {
 
 func main() {
 	sc := bufio.NewScanner(os.Stdin)
+	r := make([]result, 20)
+	cfg := config{
+		next:		"https://pokeapi.co/api/v2/location-area",
+		previous:	"null",
+		results:	r,
+	}
 	cliMap := map[string]cliCommand{
 		"exit": {
 			name:			"exit",
 			description:	"Exit the Pokedex",
 			callback:		commandExit,
+			configPtr:		&cfg,
+		},
+		"map": {
+			name:			"map",
+			description:	"Lists the next 20 location areas",
+			callback:		commandMap(&cfg),
+			configPtr:		&cfg,
+		},
+		"mapb": {
+			name:			"mapb",
+			description:	"Lists the previous 20 location areas",
+			callback:		mapb(&cfg),
+			configPtr:		&cfg,
 		},
 	}
 	cliMap["help"] = cliCommand{
 		name:			"help",
 		description:	"Displays a help message",
 		callback:		help(cliMap),
+		configPtr:		&cfg,
 	}
 
 	for {
@@ -46,7 +66,7 @@ func main() {
 			if clean[0] == command {
 				err := cliMap[command].callback()
 				if err != nil {
-					fmt.Errorf("%v", err)
+					fmt.Printf("%v", err)
 				}
 				valid = true
 				break
