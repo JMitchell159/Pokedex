@@ -44,3 +44,38 @@ func (c *Client) ListLocationAreas(pageURL *string) (LocationAreasResp, error) {
 
 	return locationAreasResp, nil
 }
+
+func (c *Client) ListLocationInfo(location string) (LocationAreaResp, error) {
+	endpoint := "/location-area/" + location
+	fullURL := baseURL + endpoint
+
+	req, err := http.NewRequest("GET", fullURL, nil)
+	if err != nil {
+		return LocationAreaResp{}, fmt.Errorf("couldn't make the request struct: %v", err)
+	}
+
+	res, err := c.httpClient.Do(req)
+	if err != nil {
+		return LocationAreaResp{}, fmt.Errorf("something wrong with the response: %v", err)
+	}
+
+	defer res.Body.Close()
+
+	body, err := io.ReadAll(res.Body)
+
+	if res.StatusCode > 399 {
+		return LocationAreaResp{}, fmt.Errorf("response failed with status code: %d and \nbody: %s", res.StatusCode, body)
+	}
+
+	if err != nil {
+		return LocationAreaResp{}, fmt.Errorf("error reading response body: %v", err)
+	}
+
+	locationAreaResp := LocationAreaResp{}
+	err = json.Unmarshal(body, &locationAreaResp)
+	if err != nil {
+		return LocationAreaResp{}, err
+	}
+
+	return locationAreaResp, nil
+}

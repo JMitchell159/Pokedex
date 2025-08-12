@@ -8,7 +8,7 @@ import (
 	"github.com/JMitchell159/pokedex/internal/pokeapi"
 )
 
-func commandMap(cfg *config) error {
+func commandMap(cfg *config, s string) error {
 	pokeapiClient := cfg.pokeapiClient
 
 	resp := pokeapi.LocationAreasResp{}
@@ -58,7 +58,7 @@ func commandMap(cfg *config) error {
 	return nil
 }
 
-func commandMapb(cfg *config) error {
+func commandMapb(cfg *config, s string) error {
 	pokeapiClient := cfg.pokeapiClient
 
 	if cfg.prevLocationAreaURL == nil {

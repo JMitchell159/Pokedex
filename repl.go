@@ -10,7 +10,7 @@ import (
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, string) error
 }
 
 func cleanInput(text string) []string {
@@ -45,6 +45,11 @@ func getCommands() map[string]cliCommand {
 			description: "Lists the previous 20 location areas",
 			callback:    commandMapb,
 		},
+		"explore": {
+			name: "explore",
+			description: "Lists the pokemon in a specified location area",
+			callback: explore,
+		},
 		"help": {
 			name:        "help",
 			description: "Displays a help message",
@@ -68,9 +73,18 @@ func startRepl(cfg *config) {
 			fmt.Printf("Unknown command\n")
 			continue
 		}
-		err := command.callback(cfg)
-		if err != nil {
-			fmt.Printf("%v\n", err)
+		if len(clean) > 1 && clean[0] == "explore" {
+			err := command.callback(cfg, clean[1])
+			if err != nil {
+				fmt.Printf("%v\n", err)
+			}
+		} else if clean[0] == "explore" {
+			fmt.Println("must include another argument for explore")
+		} else {
+			err := command.callback(cfg, "")
+			if err != nil {
+				fmt.Printf("%v\n", err)
+			}
 		}
 	}
 }
