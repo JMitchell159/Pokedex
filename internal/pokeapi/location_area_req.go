@@ -2,9 +2,9 @@ package pokeapi
 
 import (
 	"encoding/json"
-	"net/http"
 	"fmt"
 	"io"
+	"net/http"
 )
 
 func (c *Client) ListLocationAreas(pageURL *string) (LocationAreasResp, error) {
@@ -36,7 +36,7 @@ func (c *Client) ListLocationAreas(pageURL *string) (LocationAreasResp, error) {
 		return LocationAreasResp{}, fmt.Errorf("error reading response body: %v", err)
 	}
 
-	var locationAreasResp LocationAreasResp
+	locationAreasResp := LocationAreasResp{}
 	err = json.Unmarshal(body, &locationAreasResp)
 	if err != nil {
 		return LocationAreasResp{}, err

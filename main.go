@@ -10,9 +10,7 @@ type config struct {
 
 func main() {
 	cfg := config{
-		pokeapiClient:       pokeapi.NewClient(),
-		nextLocationAreaURL: nil,
-		prevLocationAreaURL: nil,
+		pokeapiClient: pokeapi.NewClient(),
 	}
 
 	startRepl(&cfg)
