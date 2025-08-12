@@ -1,26 +1,26 @@
 package main
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 )
 
 func TestCleanInput(t *testing.T) {
 	cases := []struct {
-		input		string
-		expected	[]string
+		input    string
+		expected []string
 	}{
 		{
-			input:		"  hello world  ",
-			expected:	[]string{"hello", "world"},
+			input:    "  hello world  ",
+			expected: []string{"hello", "world"},
 		},
 		{
-			input:		"Charmander Bulbasaur PIKACHU",
-			expected:	[]string{"charmander", "bulbasaur", "pikachu"},
+			input:    "Charmander Bulbasaur PIKACHU",
+			expected: []string{"charmander", "bulbasaur", "pikachu"},
 		},
 		{
-			input:		" hElLo   JoE  aNd JaCk      ",
-			expected:	[]string{"hello", "joe", "and", "jack"},
+			input:    " hElLo   JoE  aNd JaCk      ",
+			expected: []string{"hello", "joe", "and", "jack"},
 		},
 	}
 
@@ -61,7 +61,7 @@ Actual:     %v
 Pass
 `, c.input, c.expected, actual)
 		} else {
-			fmt.Errorf(`---------------------------------
+			fmt.Printf(`---------------------------------
 Inputs:     (%v)
 Expecting:  %v
 Actual:     %v
