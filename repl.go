@@ -46,9 +46,9 @@ func getCommands() map[string]cliCommand {
 			callback:    commandMapb,
 		},
 		"help": {
-			name:			"help",
-			description:	"Displays a help message",
-			callback:		commandHelp,
+			name:        "help",
+			description: "Displays a help message",
+			callback:    commandHelp,
 		},
 	}
 }
@@ -70,7 +70,7 @@ func startRepl(cfg *config) {
 		}
 		err := command.callback(cfg)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Printf("%v\n", err)
 		}
 	}
 }
