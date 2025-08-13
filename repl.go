@@ -60,6 +60,11 @@ func getCommands() map[string]cliCommand {
 			description: "Has a chance to catch a pokemon, adding it to your pokedex",
 			callback:    commandCatch,
 		},
+		"inspect": {
+			name: "inspect",
+			description: "Lists the information on a specified pokemon you have caught",
+			callback: commandInspect,
+		},
 	}
 }
 
@@ -78,13 +83,13 @@ func startRepl(cfg *config) {
 			fmt.Printf("Unknown command\n")
 			continue
 		}
-		if len(clean) > 1 && (clean[0] == "explore" || clean[0] == "catch") {
+		if len(clean) > 1 && (clean[0] == "explore" || clean[0] == "catch" || clean[0] == "inspect") {
 			err := command.callback(cfg, clean[1])
 			if err != nil {
 				fmt.Printf("%v\n", err)
 			}
-		} else if clean[0] == "explore" || clean[0] == "catch" {
-			fmt.Println("must include another argument for explore or catch")
+		} else if clean[0] == "explore" || clean[0] == "catch" || clean[0] == "inspect" {
+			fmt.Printf("must include another argument for %s\n", clean[0])
 		} else {
 			err := command.callback(cfg, "")
 			if err != nil {
