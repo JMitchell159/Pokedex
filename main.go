@@ -10,6 +10,7 @@ import (
 type config struct {
 	pokeapiClient       pokeapi.Client
 	cache               *pokecache.Cache
+	pokedex             map[string]pokeapi.Pokemon
 	nextLocationAreaURL *string
 	prevLocationAreaURL *string
 }
@@ -17,7 +18,7 @@ type config struct {
 func main() {
 	cfg := config{
 		pokeapiClient: pokeapi.NewClient(),
-		cache: pokecache.NewCache(time.Minute),
+		cache:         pokecache.NewCache(time.Minute),
 	}
 
 	startRepl(&cfg)
